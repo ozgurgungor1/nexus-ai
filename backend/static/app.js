@@ -26,12 +26,13 @@ function setMessage(selector, text) {
   el.textContent = text;
 }
 
-async function request(endpoint, method = "GET", body = null) {
-  const headers = { "Content-Type": "application/json" };
-  if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
+async function request(endpoint, method = "GET", body = null, headers = {}) {
+  const defaultHeaders = { "Content-Type": "application/json" };
+  const finalHeaders = { ...defaultHeaders, ...headers };
+  if (accessToken) finalHeaders["Authorization"] = `Bearer ${accessToken}`;
   const response = await fetch(`${baseUrl}${endpoint}`, {
     method,
-    headers,
+    headers: finalHeaders,
     body: body ? JSON.stringify(body) : null,
   });
   const text = await response.text();
@@ -39,6 +40,75 @@ async function request(endpoint, method = "GET", body = null) {
     return JSON.parse(text);
   } catch {
     return { detail: text || response.statusText };
+  }
+}
+
+async function uploadFile() {
+  const fileInput = document.getElementById("file-input");
+  const file = fileInput.files && fileInput.files[0];
+  if (!file) {
+    setMessage("upload-message", "Lütfen önce bir dosya seçin.");
+    return;
+  }
+  if (!accessToken) {
+    setMessage("upload-message", "Önce giriş yapmalısınız.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${baseUrl}/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+  });
+
+  const result = await response.json();
+  if (response.ok) {
+    setMessage("upload-message", `Yüklendi: ${result.filename}`);
+    showUploadPreview(result.path, file.type);
+  } else {
+    setMessage("upload-message", result.detail || "Yükleme başarısız oldu.");
+  }
+}
+
+function showUploadPreview(path, mimeType) {
+  const previewEl = document.getElementById("upload-preview");
+  previewEl.innerHTML = "";
+  const link = document.createElement("a");
+  link.href = path;
+  link.textContent = "Dosya bağlantısını aç";
+  link.target = "_blank";
+  previewEl.appendChild(link);
+
+  if (mimeType.startsWith("image/")) {
+    const img = document.createElement("img");
+    img.src = path;
+    img.alt = "Yüklenen görsel";
+    img.style.maxWidth = "100%";
+    img.style.marginTop = "12px";
+    previewEl.appendChild(img);
+  }
+
+  if (mimeType.startsWith("audio/")) {
+    const audio = document.createElement("audio");
+    audio.controls = true;
+    audio.src = path;
+    audio.style.display = "block";
+    audio.style.marginTop = "12px";
+    previewEl.appendChild(audio);
+  }
+
+  if (mimeType.startsWith("video/")) {
+    const video = document.createElement("video");
+    video.controls = true;
+    video.src = path;
+    video.style.maxWidth = "100%";
+    video.style.marginTop = "12px";
+    previewEl.appendChild(video);
   }
 }
 
@@ -132,6 +202,7 @@ navButtons.history.addEventListener("click", async () => {
 document.getElementById("register-button").addEventListener("click", register);
 document.getElementById("login-button").addEventListener("click", login);
 document.getElementById("chat-send").addEventListener("click", sendMessage);
+document.getElementById("upload-button").addEventListener("click", uploadFile);
 document.getElementById("new-conversation").addEventListener("click", resetConversation);
 
 showSection("login");

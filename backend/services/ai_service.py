@@ -22,12 +22,21 @@ class AIService:
             raise ValueError(f"Unknown provider: {provider_name}")
 
         last_exception: Exception | None = None
+        provider_errors: list[str] = []
         for candidate in self._provider_order(provider_name):
+            if not self._is_provider_configured(candidate) and candidate != "dummy":
+                continue
+
             provider = self._get_provider(candidate)
             try:
                 return await provider.generate(prompt, model=model)
             except Exception as exc:
                 last_exception = exc
+                provider_errors.append(f"{candidate}: {exc}")
+                if candidate == "dummy":
+                    if self._any_provider_configured():
+                        return self._dummy_fallback(provider_errors)
+                    return await provider.generate(prompt, model=model)
                 continue
 
         error_message = str(last_exception) if last_exception else "No available LLM provider."
@@ -70,7 +79,7 @@ class AIService:
                 return "local"
             if "ollama" in preference or "llama" in preference:
                 return "ollama"
-            if "openai" in preference or "gpt" in preference or "chat" in preference:
+            if "openai" in preference or "gpt" in preference or "chat" in preference or "gemini" in preference:
                 return "openai"
 
         if self._has_openai_api_key():
@@ -126,5 +135,30 @@ class AIService:
 
         return None
 
+    def _dummy_fallback(self, errors: list[str] | None = None) -> str:
+        message = (
+            "OpenAI, Ollama veya lokal model yapılandırılmış ancak şu anda yanıt veremiyor. "
+            "Lütfen bağlantı/limit durumunu kontrol edin veya farklı bir sağlayıcı kullanın."
+        )
+        if errors:
+            return f"{message} Hatalar: {' | '.join(errors)}"
+        return message
+
+    def _is_provider_configured(self, provider_name: str) -> bool:
+        if provider_name == "openai":
+            return self._has_openai_api_key()
+        if provider_name == "ollama":
+            return bool(settings.ollama_url)
+        if provider_name == "local":
+            return bool(settings.local_model_api_url)
+        return provider_name == "dummy"
+
     def _has_openai_api_key(self) -> bool:
         return bool(settings.openai_api_key or os.getenv("OPENAI_API_KEY"))
+
+    def _any_provider_configured(self) -> bool:
+        return bool(
+            self._has_openai_api_key()
+            or settings.ollama_url
+            or settings.local_model_api_url
+        )

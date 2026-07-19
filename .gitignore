@@ -21,5 +21,8 @@ data/
 # macOS
 .DS_Store
 
+# Uploads
+uploads/
+
 # Logs
 *.log

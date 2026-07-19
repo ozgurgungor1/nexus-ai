@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nexus-ai
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SECRET_KEY
+      - key: DATABASE_URL
+      - key: OPENAI_API_KEY
+      - key: OLLAMA_URL
+      - key: LOCAL_MODEL_API_URL
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+      - key: CORS_ORIGINS

@@ -11,6 +11,7 @@ class AppSettings(BaseSettings):
     access_token_expire_minutes: int = Field(default=30, env="ACCESS_TOKEN_EXPIRE_MINUTES")
     refresh_token_expire_days: int = Field(default=7, env="REFRESH_TOKEN_EXPIRE_DAYS")
     openai_api_key: str = Field(default="", env="OPENAI_API_KEY")
+    openai_model: str = Field(default="gpt-3.5-turbo", env="OPENAI_MODEL")
     ollama_url: str = Field(default="", env="OLLAMA_URL")
     local_model_api_url: str = Field(default="", env="LOCAL_MODEL_API_URL")
     cors_origins: list[str] = Field(default=["*"], env="CORS_ORIGINS")

@@ -25,6 +25,7 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory=Path(__file__).resolve().parent / "static"), name="static")
+app.mount("/uploads", StaticFiles(directory=Path(__file__).resolve().parent.parent / "uploads"), name="uploads")
 
 app.include_router(router)
 

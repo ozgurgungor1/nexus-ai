@@ -17,7 +17,7 @@ class OpenAIProvider(LLMProvider):
                 "OpenAI API key is not configured. Set OPENAI_API_KEY or openai_api_key in .env"
             )
 
-        model_name = model or "gpt-3.5-turbo"
+        model_name = model or settings.openai_model or "gpt-3.5-turbo"
 
         def sync_call() -> str:
             try:
