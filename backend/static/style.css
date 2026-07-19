@@ -1,0 +1,161 @@
+body {
+  margin: 0;
+  font-family: Inter, Verdana, Geneva, Tahoma, sans-serif;
+  background: #121212;
+  color: #f7f7f7;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+header p {
+  margin: 12px auto 0;
+  color: #c2c2c2;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.nav-button {
+  padding: 12px 18px;
+  background: #212121;
+  color: #f7f7f7;
+  border: 1px solid #444;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.nav-button.active,
+.nav-button:hover {
+  background: #2d7ef9;
+  border-color: #1a5ae0;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.visible {
+  display: block;
+}
+
+.auth-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+  background: #1e1e1e;
+  border: 1px solid #2f2f2f;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  color: #aaa;
+}
+
+input,
+textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  background: #121212;
+  color: #f7f7f7;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button.primary {
+  background: #2d7ef9;
+  color: #fff;
+  padding: 12px 18px;
+}
+
+button.secondary {
+  background: #333;
+  color: #f7f7f7;
+  padding: 12px 18px;
+}
+
+.chat-window {
+  min-height: 320px;
+  background: #111;
+  border: 1px solid #2d2d2d;
+  border-radius: 16px;
+  padding: 18px;
+  overflow: auto;
+  margin-bottom: 18px;
+}
+
+.chat-message,
+.message {
+  margin-top: 14px;
+  color: #c2c2c2;
+}
+
+.chat-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.chat-form textarea {
+  flex: 1;
+}
+
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.history-item {
+  padding: 16px;
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  border-radius: 14px;
+}
+
+footer {
+  margin-top: 32px;
+  color: #777;
+  text-align: center;
+}
+
+footer a {
+  color: #2d7ef9;
+}

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.env*
+venv/
+Lib/
+Include/
+Scripts/
+pyvenv.cfg
+pip-selfcheck.json
+*.sqlite3
+*.db
+data/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS AI - Türkçe Arayüz</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header>
+        <h1>NEXUS AI</h1>
+        <p>Türkçe arayüz ile yapay zekâ sohbeti.</p>
+      </header>
+
+      <nav>
+        <button id="btn-login" class="nav-button active">Giriş / Kayıt</button>
+        <button id="btn-chat" class="nav-button">Sohbet</button>
+        <button id="btn-history" class="nav-button">Geçmiş</button>
+      </nav>
+
+      <main>
+        <section id="section-login" class="panel visible">
+          <h2>Hesap</h2>
+          <div class="auth-grid">
+            <div class="card">
+              <h3>Giriş Yap</h3>
+              <label>E-posta</label>
+              <input id="login-email" type="email" placeholder="e-posta" />
+              <label>Şifre</label>
+              <input id="login-password" type="password" placeholder="şifre" />
+              <button id="login-button" class="primary">Giriş Yap</button>
+            </div>
+            <div class="card">
+              <h3>Kaydol</h3>
+              <label>Ad Soyad</label>
+              <input id="register-name" type="text" placeholder="Adınız" />
+              <label>E-posta</label>
+              <input id="register-email" type="email" placeholder="e-posta" />
+              <label>Şifre</label>
+              <input id="register-password" type="password" placeholder="şifre" />
+              <button id="register-button" class="secondary">Kaydol</button>
+            </div>
+          </div>
+          <div id="auth-message" class="message"></div>
+        </section>
+
+        <section id="section-chat" class="panel">
+          <h2>Sohbet</h2>
+          <div class="chat-controls">
+            <button id="new-conversation" class="secondary">Yeni Konuşma</button>
+            <span id="conversation-id">Konuşma: yok</span>
+          </div>
+          <div id="chat-window" class="chat-window"></div>
+          <div class="chat-form">
+            <textarea id="chat-input" rows="4" placeholder="Mesajınızı yazın..."></textarea>
+            <button id="chat-send" class="primary">Gönder</button>
+          </div>
+          <div id="chat-message" class="message"></div>
+        </section>
+
+        <section id="section-history" class="panel">
+          <h2>Konuşma Geçmişi</h2>
+          <div id="history-list" class="history-list"></div>
+          <div id="history-message" class="message"></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>Backend API: <a href="/docs" target="_blank">Swagger/OpenAPI</a></p>
+      </footer>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
